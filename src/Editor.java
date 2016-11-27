@@ -48,7 +48,7 @@ class Editor extends JFrame {
         } catch (BadLocationException | IOException e) {
             e.printStackTrace();
         }
-        
+
     }
 
     private void initializeMenus() {

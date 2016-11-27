@@ -14,29 +14,29 @@ class DropdownMenu {
 
     private static JMenu createFileMenu() {
         return new JMenu("File") {{
-            add("New", new JMenuItem("New"));
-            add("Open", new JMenuItem("Open"));
-            add("Save", new JMenuItem("Save"));
-            add("Save As...", new JMenuItem("Save As..."));
-            add("Exit", new JMenuItem("Exit"));
+            add(new JMenuItem("New"));
+            add(new JMenuItem("Open"));
+            add(new JMenuItem("Save"));
+            add(new JMenuItem("Save As..."));
+            add(new JMenuItem("Exit"));
         }};
     }
 
     private static JMenu createEditMenu() {
         return new JMenu("Edit") {{
-            add("Undo", new JMenuItem("Undo"));
-            add("Redo", new JMenuItem("Redo"));
+            add(new JMenuItem("Undo"));
+            add(new JMenuItem("Redo"));
             addSeparator();
-            add("Copy", new JMenuItem("Copy"));
-            add("Cut", new JMenuItem("Cut"));
-            add("Paste", new JMenuItem("Paste"));
+            add(new JMenuItem("Copy"));
+            add(new JMenuItem("Cut"));
+            add(new JMenuItem("Paste"));
         }};
     }
 
     private static JMenu createHelpMenu() {
         return new JMenu("Help") {{
-            add("About", new JMenuItem("About"));
-            add("Licensing", new JMenuItem("Licensing"));
+            add(new JMenuItem("About"));
+            add(new JMenuItem("Licensing"));
         }};
     }
 }
