@@ -14,29 +14,126 @@ class DropdownMenu {
 
     private static JMenu createFileMenu() {
         return new JMenu("File") {{
-            add(new JMenuItem("New"));
-            add(new JMenuItem("Open"));
-            add(new JMenuItem("Save"));
-            add(new JMenuItem("Save As..."));
-            add(new JMenuItem("Exit"));
+            add(createNewButton());
+            add(createOpenButton());
+            add(createSaveButton());
+            add(createSaveAsButton());
+            addSeparator();
+            add(createExitButton());
         }};
     }
 
     private static JMenu createEditMenu() {
         return new JMenu("Edit") {{
-            add(new JMenuItem("Undo"));
-            add(new JMenuItem("Redo"));
+            add(createUndoButton());
+            add(createRedoButton());
             addSeparator();
-            add(new JMenuItem("Copy"));
-            add(new JMenuItem("Cut"));
-            add(new JMenuItem("Paste"));
+            add(createCopyButton());
+            add(createCutButton());
+            add(createPasteButton());
         }};
     }
 
     private static JMenu createHelpMenu() {
         return new JMenu("Help") {{
-            add(new JMenuItem("About"));
-            add(new JMenuItem("Licensing"));
+            add(createAboutButton());
+            add(createLicensingButton());
+        }};
+    }
+
+    private static JMenuItem createNewButton() {
+        return new JMenuItem("New") {{
+            addActionListener(e -> {
+                System.out.println("New!");
+            });
+        }};
+    }
+
+    private static JMenuItem createOpenButton() {
+        return new JMenuItem("Open") {{
+            addActionListener(e -> {
+                System.out.println("Open!");
+            });
+        }};
+    }
+
+    private static JMenuItem createSaveButton() {
+        return new JMenuItem("Save") {{
+            addActionListener(e -> {
+                System.out.println("Save!");
+            });
+        }};
+    }
+
+    private static JMenuItem createSaveAsButton() {
+        return new JMenuItem("Save As...") {{
+            addActionListener(e -> {
+                System.out.println("SaveAs!");
+            });
+        }};
+    }
+
+    private static JMenuItem createExitButton() {
+        return new JMenuItem("Exit") {{
+            addActionListener(e -> {
+                System.out.println("Exit!");
+            });
+        }};
+    }
+
+    private static JMenuItem createUndoButton() {
+        return new JMenuItem("Undo") {{
+            addActionListener(e -> {
+                System.out.println("Undo!");
+            });
+        }};
+    }
+
+    private static JMenuItem createRedoButton() {
+        return new JMenuItem("Redo") {{
+            addActionListener(e -> {
+                System.out.println("Redo!");
+            });
+        }};
+    }
+
+    private static JMenuItem createCopyButton() {
+        return new JMenuItem("Copy") {{
+            addActionListener(e -> {
+                System.out.println("Copy!");
+            });
+        }};
+    }
+
+    private static JMenuItem createCutButton() {
+        return new JMenuItem("Cut") {{
+            addActionListener(e -> {
+                System.out.println("Cut!");
+            });
+        }};
+    }
+
+    private static JMenuItem createPasteButton() {
+        return new JMenuItem("Paste") {{
+            addActionListener(e -> {
+                System.out.println("Paste!");
+            });
+        }};
+    }
+
+    private static JMenuItem createAboutButton() {
+        return new JMenuItem("About") {{
+            addActionListener(e -> {
+                System.out.println("About!");
+            });
+        }};
+    }
+
+    private static JMenuItem createLicensingButton() {
+        return new JMenuItem("Licensing") {{
+            addActionListener(e -> {
+                System.out.println("Licensing!");
+            });
         }};
     }
 }
