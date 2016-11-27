@@ -1,112 +1,103 @@
 import javax.swing.*;
-import java.util.HashMap;
 
 /**
  * Created by sir.viters on 27.11.2016.
  */
 class OptionsToolBar {
-    private static HashMap<String, JButton> buttons = new HashMap<String, JButton>() {{
-        put("Bold", OptionsButton.createButton("B"));
-        put("Italic", OptionsButton.createButton("I"));
-        put("Underline", OptionsButton.createButton("U"));
-        put("Quote", OptionsButton.createButton("Quote"));
-        put("Code", OptionsButton.createButton("Code"));
-        put("UnorderedList", OptionsButton.createButton("UL"));
-        put("OrderedList", OptionsButton.createButton("OL"));
-        put("FontEnlarge", OptionsButton.createButton("Font++"));
-        put("FontLessen", OptionsButton.createButton("Font--"));
-    }};
-
     static JToolBar createOptionsToolBar() {
         JToolBar optionsToolBar = new JToolBar() {{
             setFloatable(false);
         }};
-        createButtons(optionsToolBar);
-        addActionListeners();
+        populateMenu(optionsToolBar);
         return optionsToolBar;
     }
 
-    private static void createButtons(JToolBar jToolBar) {
+    private static void populateMenu(JToolBar jToolBar) {
         jToolBar.addSeparator();
-        jToolBar.add(buttons.get("Bold"));
-        jToolBar.add(buttons.get("Italic"));
-        jToolBar.add(buttons.get("Underline"));
+        jToolBar.add(createBoldButton());
+        jToolBar.add(createItalicButton());
+        jToolBar.add(createUnderlineButton());
         jToolBar.addSeparator();
-        jToolBar.add(buttons.get("Quote"));
-        jToolBar.add(buttons.get("Code"));
+        jToolBar.add(createQuoteButton());
+        jToolBar.add(createCodeButton());
         jToolBar.addSeparator();
-        jToolBar.add(buttons.get("UnorderedList"));
-        jToolBar.add(buttons.get("OrderedList"));
+        jToolBar.add(createUnorderedListButton());
+        jToolBar.add(createOrderedListButton());
         jToolBar.addSeparator();
-        jToolBar.add(buttons.get("FontEnlarge"));
-        jToolBar.add(buttons.get("FontLessen"));
+        jToolBar.add(createFontEnlargeButton());
+        jToolBar.add(createFontLessenButton());
         jToolBar.addSeparator();
     }
 
-    private static void addActionListeners() {
-        addBoldActionListener();
-        addItalicActionListener();
-        addUnderlineActionListener();
-        addQuoteActionListener();
-        addCodeActionListener();
-        addUnorderedListActionListener();
-        addOrderedListActionListener();
-        addFontEnlargeActionListener();
-        addFontLessenActionListener();
+    private static JButton createBoldButton() {
+        return OptionsButton.createButton(
+                "B",
+                e -> {
+                    System.out.println("Bold!");
+                });
     }
 
-    private static void addBoldActionListener() {
-        buttons.get("Bold").addActionListener(e -> {
-            System.out.println("Bold");
-        });
+    private static JButton createItalicButton() {
+        return OptionsButton.createButton(
+                "I",
+                e -> {
+                    System.out.println("Italic!");
+                });
     }
 
-    private static void addItalicActionListener() {
-        buttons.get("Italic").addActionListener(e -> {
-            System.out.println("Italic");
-        });
+    private static JButton createUnderlineButton() {
+        return OptionsButton.createButton(
+                "U",
+                e -> {
+                    System.out.println("Underline!");
+                });
     }
 
-    private static void addUnderlineActionListener() {
-        buttons.get("Underline").addActionListener(e -> {
-            System.out.println("Underline");
-        });
+    private static JButton createQuoteButton() {
+        return OptionsButton.createButton(
+                "Quote",
+                e -> {
+                    System.out.println("Quote!");
+                });
     }
 
-    private static void addQuoteActionListener() {
-        buttons.get("Quote").addActionListener(e -> {
-            System.out.println("Quote");
-        });
+    private static JButton createCodeButton() {
+        return OptionsButton.createButton(
+                "Code",
+                e -> {
+                    System.out.println("Code!");
+                });
     }
 
-    private static void addCodeActionListener() {
-        buttons.get("Code").addActionListener(e -> {
-            System.out.println("Code");
-        });
+    private static JButton createUnorderedListButton() {
+        return OptionsButton.createButton(
+                "UL",
+                e -> {
+                    System.out.println("Unordered List!");
+                });
     }
 
-    private static void addUnorderedListActionListener() {
-        buttons.get("UnorderedList").addActionListener(e -> {
-            System.out.println("UnorderedList");
-        });
+    private static JButton createOrderedListButton() {
+        return OptionsButton.createButton(
+                "OL",
+                e -> {
+                    System.out.println("Ordered List!");
+                });
     }
 
-    private static void addOrderedListActionListener() {
-        buttons.get("OrderedList").addActionListener(e -> {
-            System.out.println("OrderedList");
-        });
+    private static JButton createFontEnlargeButton() {
+        return OptionsButton.createButton(
+                "Font++",
+                e -> {
+                    System.out.println("Font Enlarge!");
+                });
     }
 
-    private static void addFontEnlargeActionListener() {
-        buttons.get("FontEnlarge").addActionListener(e -> {
-            System.out.println("FontEnlarge");
-        });
+    private static JButton createFontLessenButton() {
+        return OptionsButton.createButton(
+                "Font--",
+                e -> {
+                    System.out.println("Font Lessen!");
+                });
     }
-
-    private static void addFontLessenActionListener() {
-        buttons.get("FontLessen").addActionListener(e -> {
-            System.out.println("FontLessen");
-        });
-    }
-
 }
