@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.event.ActionListener;
 
 /**
  * Created by sir.viters on 27.11.2016.
@@ -99,5 +101,16 @@ class OptionsToolBar {
                 e -> {
                     System.out.println("Font Lessen!");
                 });
+    }
+
+    private static class OptionsButton {
+        static JButton createButton(String label, ActionListener actionListener) {
+            JButton button = new JButton(label) {{
+                setFocusable(false);
+                setBorder(new EmptyBorder(5, 10, 5, 10));
+            }};
+            button.addActionListener(actionListener);
+            return button;
+        }
     }
 }
