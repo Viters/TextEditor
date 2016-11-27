@@ -3,7 +3,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
-import javax.swing.text.html.StyleSheet;
 import java.awt.*;
 import java.io.IOException;
 
@@ -32,19 +31,16 @@ class Editor extends JFrame {
     private void initializeTextPane() {
         textEditorPanel = new JPanel(new BorderLayout());
 
-        JTextPane textEditor = new JTextPane();
-        textEditor.setBorder(new EmptyBorder(10, 10, 10, 10));
-        HTMLEditorKit kit = new HTMLEditorKit();
-        textEditor.setEditorKit(kit);
+        JTextPane textEditor = FormatTextEditor.createFormatTextEditor();
         JScrollPane scroll = new JScrollPane(textEditor);
         textEditorPanel.add(scroll);
-        StyleSheet styleSheet = kit.getStyleSheet();
-        styleSheet.addRule("h1 {color: blue;}");
-
+        HTMLEditorKit kit = (HTMLEditorKit) textEditor.getEditorKit();
         HTMLDocument doc = (HTMLDocument) textEditor.getStyledDocument();
 
+
+
         try {
-            kit.insertHTML(doc, doc.getLength(), "<b>Hej!", 0, 0, null);
+            kit.insertHTML(doc, doc.getLength(), "<b>", 0, 0, null);
         } catch (BadLocationException | IOException e) {
             e.printStackTrace();
         }
