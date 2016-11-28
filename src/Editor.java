@@ -1,10 +1,6 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.html.HTMLDocument;
-import javax.swing.text.html.HTMLEditorKit;
 import java.awt.*;
-import java.io.IOException;
 
 /**
  * Created by sir.viters on 26.11.2016.
@@ -12,6 +8,7 @@ import java.io.IOException;
 class Editor extends JFrame {
     private JPanel menusPanel;
     private JPanel textEditorPanel;
+    final static JTextPane textEditor = FormatTextEditor.createFormatTextEditor();
 
     Editor() {
         try {
@@ -21,30 +18,16 @@ class Editor extends JFrame {
         }
 
         initializeMenus();
-
-        initializeTextPane();
+        initializeTextPanel();
 
         add(menusPanel, BorderLayout.NORTH);
         add(textEditorPanel, BorderLayout.CENTER);
     }
 
-    private void initializeTextPane() {
+    private void initializeTextPanel() {
         textEditorPanel = new JPanel(new BorderLayout());
-
-        JTextPane textEditor = FormatTextEditor.createFormatTextEditor();
         JScrollPane scroll = new JScrollPane(textEditor);
         textEditorPanel.add(scroll);
-        HTMLEditorKit kit = (HTMLEditorKit) textEditor.getEditorKit();
-        HTMLDocument doc = (HTMLDocument) textEditor.getStyledDocument();
-
-
-
-        try {
-            kit.insertHTML(doc, doc.getLength(), "<b>", 0, 0, null);
-        } catch (BadLocationException | IOException e) {
-            e.printStackTrace();
-        }
-
     }
 
     private void initializeMenus() {

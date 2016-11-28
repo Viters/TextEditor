@@ -44,7 +44,7 @@ class DropdownMenu {
     private static JMenuItem createNewButton() {
         return new JMenuItem("New") {{
             addActionListener(e -> {
-                System.out.println("New!");
+                System.out.println(Editor.textEditor.getText());
             });
         }};
     }
