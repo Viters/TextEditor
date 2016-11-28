@@ -35,9 +35,7 @@ class OptionsToolBar {
         return OptionsButton.createButton(
                 "B",
                 e -> {
-                    int selectStart = Editor.textEditor.getSelectionStart();
-                    int selectLength = Editor.textEditor.getSelectedText().length();
-                    FormatTextEditor.formatSelectedText(selectStart, selectLength, s -> "<b>" + s + "</b>");
+                    FormatTextEditor.formatSelectedText(s -> "<b>" + s + "</b>");
                 });
     }
 
@@ -45,9 +43,7 @@ class OptionsToolBar {
         return OptionsButton.createButton(
                 "I",
                 e -> {
-                    int selectStart = Editor.textEditor.getSelectionStart();
-                    int selectLength = Editor.textEditor.getSelectedText().length();
-                    FormatTextEditor.formatSelectedText(selectStart, selectLength, s -> "<i>" + s + "</i>");
+                    FormatTextEditor.formatSelectedText(s -> "<i>" + s + "</i>");
                 });
     }
 
@@ -55,9 +51,7 @@ class OptionsToolBar {
         return OptionsButton.createButton(
                 "U",
                 e -> {
-                    int selectStart = Editor.textEditor.getSelectionStart();
-                    int selectLength = Editor.textEditor.getSelectedText().length();
-                    FormatTextEditor.formatSelectedText(selectStart, selectLength, s -> "<u>" + s + "</u>");
+                    FormatTextEditor.formatSelectedText(s -> "<u>" + s + "</u>");
                 });
     }
 

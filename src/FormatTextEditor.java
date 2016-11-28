@@ -18,7 +18,7 @@ public class FormatTextEditor {
         }};
     }
 
-    static void formatSelectedText(int startPos, int selectLength, Function<String, String> transition) {
+    static void formatText(int startPos, int selectLength, Function<String, String> transition) {
         try {
             HTMLEditorKit kit = (HTMLEditorKit) Editor.textEditor.getEditorKit();
             HTMLDocument doc = (HTMLDocument) Editor.textEditor.getStyledDocument();
@@ -29,5 +29,11 @@ public class FormatTextEditor {
         } catch (BadLocationException | IOException e) {
             e.printStackTrace();
         }
+    }
+
+    static void formatSelectedText(Function<String, String> transition) {
+        int selectStart = Editor.textEditor.getSelectionStart();
+        int selectLength = Editor.textEditor.getSelectedText().length();
+        formatText(selectStart, selectLength, transition);
     }
 }
