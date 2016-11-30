@@ -1,10 +1,7 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.html.HTMLDocument;
-import javax.swing.text.html.HTMLEditorKit;
-import java.io.IOException;
-import java.util.function.Function;
+import javax.swing.text.*;
+import java.awt.*;
 
 /**
  * Created by sir.viters on 27.11.2016.
@@ -14,26 +11,34 @@ public class FormatTextEditor {
     static JTextPane createFormatTextEditor() {
         return new JTextPane() {{
             setBorder(new EmptyBorder(10, 10, 10, 10));
-            setEditorKit(new HTMLEditorKit());
+            setEditorKit(new StyledEditorKit());
         }};
     }
 
-    static void formatText(int startPos, int selectLength, Function<String, String> transition) {
-        try {
-            HTMLEditorKit kit = (HTMLEditorKit) Editor.textEditor.getEditorKit();
-            HTMLDocument doc = (HTMLDocument) Editor.textEditor.getStyledDocument();
-            String selectedText = doc.getText(startPos, selectLength);
-            String formattedText = transition.apply(selectedText);
-            doc.remove(startPos, selectLength);
-            kit.insertHTML(doc, startPos, formattedText, 0, 0, null);
-        } catch (BadLocationException | IOException e) {
-            e.printStackTrace();
-        }
+    static void formatText(int startPos, int selectLength, FormatPredicate formatPredicate, FormatTransformation formatTransformation) {
+        StyledDocument doc = Editor.textEditor.getStyledDocument();
+        StyledEditorKit kit = (StyledEditorKit) Editor.textEditor.getEditorKit();
+        AttributeSet attributeSet = kit.getInputAttributes();
+        boolean shouldBeFormatted = !formatPredicate.check(attributeSet);
+        SimpleAttributeSet simpleAttributeSet = new SimpleAttributeSet();
+        formatTransformation.transform(simpleAttributeSet, shouldBeFormatted);
+
+        EventQueue.invokeLater(() -> {
+            doc.setCharacterAttributes(startPos, selectLength, simpleAttributeSet, false);
+        });
     }
 
-    static void formatSelectedText(Function<String, String> transition) {
+    static void formatSelectedText(FormatPredicate formatPredicate, FormatTransformation formatTransformation) {
         int selectStart = Editor.textEditor.getSelectionStart();
         int selectLength = Editor.textEditor.getSelectedText().length();
-        formatText(selectStart, selectLength, transition);
+        formatText(selectStart, selectLength, formatPredicate, formatTransformation);
+    }
+
+    interface FormatPredicate {
+        boolean check(AttributeSet attributeSet);
+    }
+
+    interface FormatTransformation {
+        void transform(MutableAttributeSet mutableAttributeSet, boolean formatPredicate);
     }
 }

@@ -1,5 +1,6 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.StyleConstants;
 import java.awt.event.ActionListener;
 
 /**
@@ -35,7 +36,10 @@ class OptionsToolBar {
         return OptionsButton.createButton(
                 "B",
                 e -> {
-                    FormatTextEditor.formatSelectedText(s -> "<b>" + s + "</b>");
+                    FormatTextEditor.formatSelectedText(
+                            attributeSet -> StyleConstants.isBold(attributeSet),
+                            (mutableAttributeSet, formatPredicate) -> StyleConstants.setBold(mutableAttributeSet, formatPredicate)
+                    );
                 });
     }
 
@@ -43,7 +47,6 @@ class OptionsToolBar {
         return OptionsButton.createButton(
                 "I",
                 e -> {
-                    FormatTextEditor.formatSelectedText(s -> "<i>" + s + "</i>");
                 });
     }
 
@@ -51,7 +54,6 @@ class OptionsToolBar {
         return OptionsButton.createButton(
                 "U",
                 e -> {
-                    FormatTextEditor.formatSelectedText(s -> "<u>" + s + "</u>");
                 });
     }
 
