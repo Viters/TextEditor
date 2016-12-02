@@ -1,7 +1,6 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.*;
-import java.awt.*;
 
 /**
  * Created by sir.viters on 27.11.2016.
@@ -15,22 +14,21 @@ public class FormatTextEditor {
         }};
     }
 
-    static void formatText(int startPos, int selectLength, FormatPredicate formatPredicate, FormatTransformation formatTransformation) {
-        StyledDocument doc = Editor.textEditor.getStyledDocument();
-        StyledEditorKit kit = (StyledEditorKit) Editor.textEditor.getEditorKit();
-        AttributeSet attributeSet = kit.getInputAttributes();
-        boolean shouldBeFormatted = !formatPredicate.check(attributeSet);
-        SimpleAttributeSet simpleAttributeSet = new SimpleAttributeSet();
-        formatTransformation.transform(simpleAttributeSet, shouldBeFormatted);
-
-        EventQueue.invokeLater(() -> {
-            doc.setCharacterAttributes(startPos, selectLength, simpleAttributeSet, false);
+    static void formatText(final int selectStart, final int selectLength, final FormatPredicate formatPredicate, final FormatTransformation formatTransformation) {
+        final StyledDocument doc = Editor.textEditor.getStyledDocument();
+        final StyledEditorKit kit = (StyledEditorKit) Editor.textEditor.getEditorKit();
+        final AttributeSet attributeSet = kit.getInputAttributes();
+        final boolean shouldBeFormatted = !formatPredicate.check(attributeSet);
+        SwingUtilities.invokeLater(() -> {
+            MutableAttributeSet simpleAttributeSet = new SimpleAttributeSet();
+            formatTransformation.transform(simpleAttributeSet, shouldBeFormatted);
+            doc.setCharacterAttributes(selectStart, selectLength, simpleAttributeSet, true);
         });
     }
 
-    static void formatSelectedText(FormatPredicate formatPredicate, FormatTransformation formatTransformation) {
-        int selectStart = Editor.textEditor.getSelectionStart();
-        int selectLength = Editor.textEditor.getSelectedText().length();
+    static void formatSelectedText(final FormatPredicate formatPredicate, final FormatTransformation formatTransformation) {
+        final int selectStart = Editor.textEditor.getSelectionStart();
+        final int selectLength = Editor.textEditor.getSelectedText().length();
         formatText(selectStart, selectLength, formatPredicate, formatTransformation);
     }
 

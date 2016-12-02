@@ -17,11 +17,13 @@ class Editor extends JFrame {
             e.printStackTrace();
         }
 
-        initializeMenus();
-        initializeTextPanel();
+        SwingUtilities.invokeLater(() -> {
+            initializeMenus();
+            initializeTextPanel();
 
-        add(menusPanel, BorderLayout.NORTH);
-        add(textEditorPanel, BorderLayout.CENTER);
+            add(menusPanel, BorderLayout.NORTH);
+            add(textEditorPanel, BorderLayout.CENTER);
+        });
     }
 
     private void initializeTextPanel() {

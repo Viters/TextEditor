@@ -1,6 +1,7 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.StyleConstants;
+import java.awt.*;
 import java.awt.event.ActionListener;
 
 /**
@@ -20,89 +21,67 @@ class OptionsToolBar {
         jToolBar.add(createBoldButton());
         jToolBar.add(createItalicButton());
         jToolBar.add(createUnderlineButton());
+        jToolBar.add(createStrikeThroughButton());
         jToolBar.addSeparator();
-        jToolBar.add(createQuoteButton());
-        jToolBar.add(createCodeButton());
+        jToolBar.add(createSuperscriptButton());
+        jToolBar.add(createSubscriptButton());
         jToolBar.addSeparator();
-        jToolBar.add(createUnorderedListButton());
-        jToolBar.add(createOrderedListButton());
-        jToolBar.addSeparator();
-        jToolBar.add(createFontEnlargeButton());
-        jToolBar.add(createFontLessenButton());
+
         jToolBar.addSeparator();
     }
 
     private static JButton createBoldButton() {
         return OptionsButton.createButton(
                 "B",
-                e -> {
-                    FormatTextEditor.formatSelectedText(
-                            attributeSet -> StyleConstants.isBold(attributeSet),
-                            (mutableAttributeSet, formatPredicate) -> StyleConstants.setBold(mutableAttributeSet, formatPredicate)
-                    );
-                });
+                e -> FormatTextEditor.formatSelectedText(
+                        attributeSet -> StyleConstants.isBold(attributeSet),
+                        (mutableAttributeSet, formatPredicate) -> StyleConstants.setBold(mutableAttributeSet, formatPredicate)
+                ));
     }
 
     private static JButton createItalicButton() {
         return OptionsButton.createButton(
                 "I",
-                e -> {
-                });
+                e -> FormatTextEditor.formatSelectedText(
+                        attributeSet -> StyleConstants.isItalic(attributeSet),
+                        (mutableAttributeSet, formatPredicate) -> StyleConstants.setItalic(mutableAttributeSet, formatPredicate)
+                ));
     }
 
     private static JButton createUnderlineButton() {
         return OptionsButton.createButton(
                 "U",
-                e -> {
-                });
+                e -> FormatTextEditor.formatSelectedText(
+                        attributeSet -> StyleConstants.isUnderline(attributeSet),
+                        (mutableAttributeSet, formatPredicate) -> StyleConstants.setUnderline(mutableAttributeSet, formatPredicate)
+                ));
     }
 
-    private static JButton createQuoteButton() {
+    private static JButton createStrikeThroughButton() {
         return OptionsButton.createButton(
-                "Quote",
-                e -> {
-                    System.out.println("Quote!");
-                });
+                "-S-",
+                e -> FormatTextEditor.formatSelectedText(
+                        attributeSet -> StyleConstants.isStrikeThrough(attributeSet),
+                        (mutableAttributeSet, formatPredicate) -> StyleConstants.setStrikeThrough(mutableAttributeSet, formatPredicate)
+                ));
     }
 
-    private static JButton createCodeButton() {
+    private static JButton createSuperscriptButton() {
         return OptionsButton.createButton(
-                "Code",
-                e -> {
-                    System.out.println("Code!");
-                });
+                "Superscript",
+                e -> FormatTextEditor.formatSelectedText(
+                        attributeSet -> StyleConstants.isSuperscript(attributeSet),
+                        (mutableAttributeSet, formatPredicate) -> StyleConstants.setSuperscript(mutableAttributeSet, formatPredicate)
+                ));
     }
 
-    private static JButton createUnorderedListButton() {
+    private static JButton createSubscriptButton() {
         return OptionsButton.createButton(
-                "UL",
-                e -> {
-                    System.out.println("Unordered List!");
-                });
-    }
-
-    private static JButton createOrderedListButton() {
-        return OptionsButton.createButton(
-                "OL",
-                e -> {
-                    System.out.println("Ordered List!");
-                });
-    }
-
-    private static JButton createFontEnlargeButton() {
-        return OptionsButton.createButton(
-                "Font++",
-                e -> {
-                    System.out.println("Font Enlarge!");
-                });
-    }
-
-    private static JButton createFontLessenButton() {
-        return OptionsButton.createButton(
-                "Font--",
-                e -> {
-                    System.out.println("Font Lessen!");
-                });
+                "Subscript",
+                e -> FormatTextEditor.formatSelectedText(
+                        attributeSet -> StyleConstants.isSubscript(attributeSet),
+                        (mutableAttributeSet, formatPredicate) -> StyleConstants.setSubscript(mutableAttributeSet, formatPredicate)
+                ));
     }
 
     private static class OptionsButton {
@@ -110,6 +89,7 @@ class OptionsToolBar {
             JButton button = new JButton(label) {{
                 setFocusable(false);
                 setBorder(new EmptyBorder(5, 10, 5, 10));
+                setFont(new Font("", 2, 13));
             }};
             button.addActionListener(actionListener);
             return button;
