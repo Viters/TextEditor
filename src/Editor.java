@@ -1,3 +1,6 @@
+import jiconfont.icons.FontAwesome;
+import jiconfont.swing.IconFontSwing;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -17,6 +20,8 @@ class Editor extends JFrame {
             e.printStackTrace();
         }
 
+        IconFontSwing.register(FontAwesome.getIconFont());
+
         SwingUtilities.invokeLater(() -> {
             initializeMenus();
             initializeTextPanel();
@@ -24,6 +29,10 @@ class Editor extends JFrame {
             add(menusPanel, BorderLayout.NORTH);
             add(textEditorPanel, BorderLayout.CENTER);
         });
+    }
+
+    static Icon buildStandardFont(FontAwesome fa) {
+        return IconFontSwing.buildIcon(fa, 14, FormatTextEditor.mapColorStringToColorObject("Midnight Blue"));
     }
 
     private void initializeTextPanel() {

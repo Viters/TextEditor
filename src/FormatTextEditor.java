@@ -20,7 +20,7 @@ public class FormatTextEditor {
     }
 
     static StyledEditorKit.StyledTextAction createNewFormatAction(final FormatPredicate formatPredicate, final FormatTransformation formatTransformation) {
-        return new StyledEditorKit.StyledTextAction("strike-through") {
+        return new StyledEditorKit.StyledTextAction("format") {
             @Override
             public void actionPerformed(ActionEvent e) {
                 final JEditorPane editor = getEditor(e);

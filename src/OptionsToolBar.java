@@ -1,4 +1,5 @@
 import javafx.scene.text.TextAlignment;
+import jiconfont.icons.FontAwesome;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -37,35 +38,38 @@ class OptionsToolBar {
         jToolBar.addSeparator();
         jToolBar.add(createFontEnlargeButton());
         jToolBar.add(createFontLessenButton());
+        jToolBar.addSeparator();
         jToolBar.add(createFontSetSizeDropdown());
+        jToolBar.addSeparator();
         jToolBar.add(createFontColorDropdown());
+        jToolBar.addSeparator();
         jToolBar.add(createFontFamilyDropdown());
     }
 
     private static JButton createBoldButton() {
         return OptionsButton.createButton(
-                "B",
+                FontAwesome.BOLD,
                 new StyledEditorKit.BoldAction()
         );
     }
 
     private static JButton createItalicButton() {
         return OptionsButton.createButton(
-                "I",
+                FontAwesome.ITALIC,
                 new StyledEditorKit.ItalicAction()
         );
     }
 
     private static JButton createUnderlineButton() {
         return OptionsButton.createButton(
-                "U",
+                FontAwesome.UNDERLINE,
                 new StyledEditorKit.UnderlineAction()
         );
     }
 
     private static JButton createStrikeThroughButton() {
         return OptionsButton.createButton(
-                "-S-",
+                FontAwesome.STRIKETHROUGH,
                 FormatTextEditor.createNewFormatAction(
                         attributeSet -> StyleConstants.isStrikeThrough(attributeSet),
                         (mutableAttributeSet, formatPredicate) -> StyleConstants.setStrikeThrough(mutableAttributeSet, formatPredicate)
@@ -74,7 +78,7 @@ class OptionsToolBar {
 
     private static JButton createSuperscriptButton() {
         return OptionsButton.createButton(
-                "^",
+                FontAwesome.SUPERSCRIPT,
                 FormatTextEditor.createNewFormatAction(
                         attributeSet -> StyleConstants.isSuperscript(attributeSet),
                         (mutableAttributeSet, formatPredicate) -> StyleConstants.setSuperscript(mutableAttributeSet, formatPredicate)
@@ -83,7 +87,7 @@ class OptionsToolBar {
 
     private static JButton createSubscriptButton() {
         return OptionsButton.createButton(
-                "_",
+                FontAwesome.SUBSCRIPT,
                 FormatTextEditor.createNewFormatAction(
                         attributeSet -> StyleConstants.isSubscript(attributeSet),
                         (mutableAttributeSet, formatPredicate) -> StyleConstants.setSubscript(mutableAttributeSet, formatPredicate)
@@ -92,14 +96,14 @@ class OptionsToolBar {
 
     private static JButton createFontEnlargeButton() {
         return OptionsButton.createButton(
-                "F++",
+                FontAwesome.EXPAND,
                 FormatTextEditor.createFontSizeAction(1)
         );
     }
 
     private static JButton createFontLessenButton() {
         return OptionsButton.createButton(
-                "F--",
+                FontAwesome.COMPRESS,
                 FormatTextEditor.createFontSizeAction(-1)
         );
     }
@@ -128,28 +132,28 @@ class OptionsToolBar {
 
     private static JButton createAlignLeftButton() {
         return OptionsButton.createButton(
-                "Left",
+                FontAwesome.ALIGN_LEFT,
                 new StyledEditorKit.AlignmentAction("", TextAlignment.LEFT.ordinal())
         );
     }
 
     private static JButton createAlignCenterButton() {
         return OptionsButton.createButton(
-                "Center",
+                FontAwesome.ALIGN_CENTER,
                 new StyledEditorKit.AlignmentAction("", TextAlignment.CENTER.ordinal())
         );
     }
 
     private static JButton createAlignRightButton() {
         return OptionsButton.createButton(
-                "Right",
+                FontAwesome.ALIGN_RIGHT,
                 new StyledEditorKit.AlignmentAction("", TextAlignment.RIGHT.ordinal())
         );
     }
 
     private static JButton createAlignJustifyButton() {
         return OptionsButton.createButton(
-                "Justify",
+                FontAwesome.ALIGN_JUSTIFY,
                 new StyledEditorKit.AlignmentAction("", TextAlignment.JUSTIFY.ordinal())
         );
     }
@@ -182,6 +186,7 @@ class OptionsToolBar {
         return new JComboBox<String>(fonts) {{
             setMaximumSize(new Dimension(160, 30));
             setFocusable(false);
+            setSelectedItem(Editor.textEditor.getFont().getFamily());
             addActionListener(new StyledEditorKit.StyledTextAction("font-family") {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -200,11 +205,10 @@ class OptionsToolBar {
 
 
     private static class OptionsButton {
-        static JButton createButton(String label, ActionListener actionListener) {
-            JButton button = new JButton(label) {{
+        static JButton createButton(FontAwesome fa, ActionListener actionListener) {
+            JButton button = new JButton(Editor.buildStandardFont(fa)) {{
                 setFocusable(false);
                 setBorder(new EmptyBorder(5, 10, 5, 10));
-                setFont(new Font("", 1, 13));
             }};
             button.addActionListener(actionListener);
             return button;

@@ -1,3 +1,5 @@
+import jiconfont.icons.FontAwesome;
+
 import javax.swing.*;
 
 /**
@@ -43,6 +45,7 @@ class DropdownMenu {
 
     private static JMenuItem createNewButton() {
         return new JMenuItem("New") {{
+            setIcon(Editor.buildStandardFont(FontAwesome.FILE_O));
             addActionListener(e -> {
                 System.out.println(Editor.textEditor.getText());
             });
@@ -51,6 +54,7 @@ class DropdownMenu {
 
     private static JMenuItem createOpenButton() {
         return new JMenuItem("Open") {{
+            setIcon(Editor.buildStandardFont(FontAwesome.FOLDER_OPEN));
             addActionListener(e -> {
                 System.out.println("Open!");
             });
@@ -59,6 +63,7 @@ class DropdownMenu {
 
     private static JMenuItem createSaveButton() {
         return new JMenuItem("Save") {{
+            setIcon(Editor.buildStandardFont(FontAwesome.FLOPPY_O));
             addActionListener(e -> {
                 System.out.println("Save!");
             });
@@ -67,6 +72,7 @@ class DropdownMenu {
 
     private static JMenuItem createSaveAsButton() {
         return new JMenuItem("Save As...") {{
+            setIcon(Editor.buildStandardFont(FontAwesome.FLOPPY_O));
             addActionListener(e -> {
                 System.out.println("SaveAs!");
             });
@@ -75,6 +81,7 @@ class DropdownMenu {
 
     private static JMenuItem createExitButton() {
         return new JMenuItem("Exit") {{
+            setIcon(Editor.buildStandardFont(FontAwesome.TIMES));
             addActionListener(e -> {
                 System.out.println("Exit!");
             });
@@ -83,6 +90,7 @@ class DropdownMenu {
 
     private static JMenuItem createUndoButton() {
         return new JMenuItem("Undo") {{
+            setIcon(Editor.buildStandardFont(FontAwesome.UNDO));
             addActionListener(e -> {
                 System.out.println("Undo!");
             });
@@ -91,6 +99,7 @@ class DropdownMenu {
 
     private static JMenuItem createRedoButton() {
         return new JMenuItem("Redo") {{
+            setIcon(Editor.buildStandardFont(FontAwesome.REPEAT));
             addActionListener(e -> {
                 System.out.println("Redo!");
             });
@@ -99,6 +108,7 @@ class DropdownMenu {
 
     private static JMenuItem createCopyButton() {
         return new JMenuItem("Copy") {{
+            setIcon(Editor.buildStandardFont(FontAwesome.FILES_O));
             addActionListener(e -> {
                 System.out.println("Copy!");
             });
@@ -107,6 +117,7 @@ class DropdownMenu {
 
     private static JMenuItem createCutButton() {
         return new JMenuItem("Cut") {{
+            setIcon(Editor.buildStandardFont(FontAwesome.SCISSORS));
             addActionListener(e -> {
                 System.out.println("Cut!");
             });
@@ -115,6 +126,7 @@ class DropdownMenu {
 
     private static JMenuItem createPasteButton() {
         return new JMenuItem("Paste") {{
+            setIcon(Editor.buildStandardFont(FontAwesome.CLIPBOARD));
             addActionListener(e -> {
                 System.out.println("Paste!");
             });
@@ -123,6 +135,7 @@ class DropdownMenu {
 
     private static JMenuItem createAboutButton() {
         return new JMenuItem("About") {{
+            setIcon(Editor.buildStandardFont(FontAwesome.FILE_TEXT_O));
             addActionListener(e -> {
                 System.out.println("About!");
             });
@@ -131,6 +144,7 @@ class DropdownMenu {
 
     private static JMenuItem createLicensingButton() {
         return new JMenuItem("Licensing") {{
+            setIcon(Editor.buildStandardFont(FontAwesome.COPYRIGHT));
             addActionListener(e -> {
                 System.out.println("Licensing!");
             });

@@ -9,10 +9,11 @@ public class Main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             frame = new Editor();
-            frame.setTitle("Code");
+            frame.setTitle("Writer");
             frame.setSize(1000, 700);
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
+            frame.setIconImage(new ImageIcon("assets/logo.png").getImage());
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         });
     }
