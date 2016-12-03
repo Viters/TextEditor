@@ -33,7 +33,7 @@ public class FormatTextEditor {
     }
 
     static StyledEditorKit.StyledTextAction createFontSizeAction(final int difference) {
-        return new StyledEditorKit.StyledTextAction("font-enlarge") {
+        return new StyledEditorKit.StyledTextAction("font-size-relative") {
             @Override
             public void actionPerformed(ActionEvent e) {
                 final JEditorPane editor = getEditor(e);

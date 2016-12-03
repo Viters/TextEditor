@@ -1,8 +1,10 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledEditorKit;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
@@ -29,6 +31,7 @@ class OptionsToolBar {
         jToolBar.addSeparator();
         jToolBar.add(createFontEnlargeButton());
         jToolBar.add(createFontLessenButton());
+        jToolBar.add(createFontSetSizeDropdown());
         jToolBar.addSeparator();
     }
 
@@ -92,6 +95,27 @@ class OptionsToolBar {
                 "F--",
                 FormatTextEditor.createFontSizeAction(-1)
         );
+    }
+
+    private static JComboBox<Integer> createFontSetSizeDropdown() {
+        Integer[] fontSizes = { 8, 10, 12, 14, 16, 20, 24, 28, 32, 48, 64 };
+        return new JComboBox<Integer>(fontSizes) {{
+            setMaximumSize(new Dimension(60, 30));
+            setFocusable(false);
+            addActionListener(new StyledEditorKit.StyledTextAction("font-size-absolute") {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    JComboBox cb = (JComboBox)e.getSource();
+                    Integer fontSize = (Integer) cb.getSelectedItem();
+                    final JEditorPane editor = getEditor(e);
+                    if (editor != null) {
+                        SimpleAttributeSet sas = new SimpleAttributeSet();
+                        StyleConstants.setFontSize(sas, fontSize);
+                        setCharacterAttributes(editor, sas, false);
+                    }
+                }
+            });
+        }};
     }
 
     private static class OptionsButton {
