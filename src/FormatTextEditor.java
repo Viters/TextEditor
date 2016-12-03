@@ -32,6 +32,23 @@ public class FormatTextEditor {
         };
     }
 
+    static StyledEditorKit.StyledTextAction createFontSizeAction(final int difference) {
+        return new StyledEditorKit.StyledTextAction("font-enlarge") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                final JEditorPane editor = getEditor(e);
+                if (editor != null) {
+                    final StyledEditorKit kit = getStyledEditorKit(editor);
+                    AttributeSet attr = kit.getInputAttributes();
+                    final int currentFontSize = StyleConstants.getFontSize(attr);
+                    SimpleAttributeSet sas = new SimpleAttributeSet();
+                    StyleConstants.setFontSize(sas, currentFontSize + difference);
+                    setCharacterAttributes(editor, sas, false);
+                }
+            }
+        };
+    }
+
     interface FormatPredicate {
         boolean check(AttributeSet attributeSet);
     }

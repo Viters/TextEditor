@@ -27,7 +27,8 @@ class OptionsToolBar {
         jToolBar.add(createSuperscriptButton());
         jToolBar.add(createSubscriptButton());
         jToolBar.addSeparator();
-
+        jToolBar.add(createFontEnlargeButton());
+        jToolBar.add(createFontLessenButton());
         jToolBar.addSeparator();
     }
 
@@ -79,14 +80,26 @@ class OptionsToolBar {
                 ));
     }
 
+    private static JButton createFontEnlargeButton() {
+        return OptionsButton.createButton(
+                "F++",
+                FormatTextEditor.createFontSizeAction(1)
+        );
+    }
 
+    private static JButton createFontLessenButton() {
+        return OptionsButton.createButton(
+                "F--",
+                FormatTextEditor.createFontSizeAction(-1)
+        );
+    }
 
     private static class OptionsButton {
         static JButton createButton(String label, ActionListener actionListener) {
             JButton button = new JButton(label) {{
                 setFocusable(false);
                 setBorder(new EmptyBorder(5, 10, 5, 10));
-                setFont(new Font("", 2, 13));
+                setFont(new Font("", 1, 13));
             }};
             button.addActionListener(actionListener);
             return button;
