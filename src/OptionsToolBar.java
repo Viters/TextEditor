@@ -1,3 +1,5 @@
+import javafx.scene.text.TextAlignment;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.SimpleAttributeSet;
@@ -20,7 +22,6 @@ class OptionsToolBar {
     }
 
     private static void populateMenu(JToolBar jToolBar) {
-        jToolBar.addSeparator();
         jToolBar.add(createBoldButton());
         jToolBar.add(createItalicButton());
         jToolBar.add(createUnderlineButton());
@@ -29,11 +30,16 @@ class OptionsToolBar {
         jToolBar.add(createSuperscriptButton());
         jToolBar.add(createSubscriptButton());
         jToolBar.addSeparator();
+        jToolBar.add(createAlignLeftButton());
+        jToolBar.add(createAlignCenterButton());
+        jToolBar.add(createAlignRightButton());
+        jToolBar.add(createAlignJustifyButton());
+        jToolBar.addSeparator();
         jToolBar.add(createFontEnlargeButton());
         jToolBar.add(createFontLessenButton());
         jToolBar.add(createFontSetSizeDropdown());
         jToolBar.add(createFontColorDropdown());
-        jToolBar.addSeparator();
+        jToolBar.add(createFontFamilyDropdown());
     }
 
     private static JButton createBoldButton() {
@@ -103,7 +109,6 @@ class OptionsToolBar {
         return new JComboBox<Integer>(fontSizes) {{
             setMaximumSize(new Dimension(60, 30));
             setFocusable(false);
-            setBorder(new EmptyBorder(5, 10, 5, 10));
             setSelectedIndex(3);
             addActionListener(new StyledEditorKit.StyledTextAction("font-size-absolute") {
                 @Override
@@ -121,13 +126,40 @@ class OptionsToolBar {
         }};
     }
 
+    private static JButton createAlignLeftButton() {
+        return OptionsButton.createButton(
+                "Left",
+                new StyledEditorKit.AlignmentAction("", TextAlignment.LEFT.ordinal())
+        );
+    }
+
+    private static JButton createAlignCenterButton() {
+        return OptionsButton.createButton(
+                "Center",
+                new StyledEditorKit.AlignmentAction("", TextAlignment.CENTER.ordinal())
+        );
+    }
+
+    private static JButton createAlignRightButton() {
+        return OptionsButton.createButton(
+                "Right",
+                new StyledEditorKit.AlignmentAction("", TextAlignment.RIGHT.ordinal())
+        );
+    }
+
+    private static JButton createAlignJustifyButton() {
+        return OptionsButton.createButton(
+                "Justify",
+                new StyledEditorKit.AlignmentAction("", TextAlignment.JUSTIFY.ordinal())
+        );
+    }
+
     private static JComboBox<String> createFontColorDropdown() {
         String[] colors = {"Midnight Blue", "Asbestos", "Wisteria", "Belizehole",
                 "Pomegranate", "Pumpkin", "Nephritis", "Greensea"};
         return new JComboBox<String>(colors) {{
             setMaximumSize(new Dimension(100, 30));
             setFocusable(false);
-            setBorder(new EmptyBorder(5, 10, 5, 10));
             addActionListener(new StyledEditorKit.StyledTextAction("font-color") {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -138,6 +170,27 @@ class OptionsToolBar {
                         SimpleAttributeSet sas = new SimpleAttributeSet();
                         Color color = FormatTextEditor.mapColorStringToColorObject(fontColor);
                         StyleConstants.setForeground(sas, color);
+                        setCharacterAttributes(editor, sas, false);
+                    }
+                }
+            });
+        }};
+    }
+
+    private static JComboBox<String> createFontFamilyDropdown() {
+        String[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+        return new JComboBox<String>(fonts) {{
+            setMaximumSize(new Dimension(160, 30));
+            setFocusable(false);
+            addActionListener(new StyledEditorKit.StyledTextAction("font-family") {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    JComboBox cb = (JComboBox) e.getSource();
+                    String fontFamily = (String) cb.getSelectedItem();
+                    final JEditorPane editor = getEditor(e);
+                    if (editor != null) {
+                        SimpleAttributeSet sas = new SimpleAttributeSet();
+                        StyleConstants.setFontFamily(sas, fontFamily);
                         setCharacterAttributes(editor, sas, false);
                     }
                 }
