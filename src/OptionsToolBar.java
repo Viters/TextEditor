@@ -1,6 +1,7 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledEditorKit;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
@@ -33,34 +34,28 @@ class OptionsToolBar {
     private static JButton createBoldButton() {
         return OptionsButton.createButton(
                 "B",
-                e -> FormatTextEditor.formatSelectedText(
-                        attributeSet -> StyleConstants.isBold(attributeSet),
-                        (mutableAttributeSet, formatPredicate) -> StyleConstants.setBold(mutableAttributeSet, formatPredicate)
-                ));
+                new StyledEditorKit.BoldAction()
+        );
     }
 
     private static JButton createItalicButton() {
         return OptionsButton.createButton(
                 "I",
-                e -> FormatTextEditor.formatSelectedText(
-                        attributeSet -> StyleConstants.isItalic(attributeSet),
-                        (mutableAttributeSet, formatPredicate) -> StyleConstants.setItalic(mutableAttributeSet, formatPredicate)
-                ));
+                new StyledEditorKit.ItalicAction()
+        );
     }
 
     private static JButton createUnderlineButton() {
         return OptionsButton.createButton(
                 "U",
-                e -> FormatTextEditor.formatSelectedText(
-                        attributeSet -> StyleConstants.isUnderline(attributeSet),
-                        (mutableAttributeSet, formatPredicate) -> StyleConstants.setUnderline(mutableAttributeSet, formatPredicate)
-                ));
+                new StyledEditorKit.UnderlineAction()
+        );
     }
 
     private static JButton createStrikeThroughButton() {
         return OptionsButton.createButton(
                 "-S-",
-                e -> FormatTextEditor.formatSelectedText(
+                FormatTextEditor.createNewFormatAction(
                         attributeSet -> StyleConstants.isStrikeThrough(attributeSet),
                         (mutableAttributeSet, formatPredicate) -> StyleConstants.setStrikeThrough(mutableAttributeSet, formatPredicate)
                 ));
@@ -68,8 +63,8 @@ class OptionsToolBar {
 
     private static JButton createSuperscriptButton() {
         return OptionsButton.createButton(
-                "Superscript",
-                e -> FormatTextEditor.formatSelectedText(
+                "^",
+                FormatTextEditor.createNewFormatAction(
                         attributeSet -> StyleConstants.isSuperscript(attributeSet),
                         (mutableAttributeSet, formatPredicate) -> StyleConstants.setSuperscript(mutableAttributeSet, formatPredicate)
                 ));
@@ -77,12 +72,14 @@ class OptionsToolBar {
 
     private static JButton createSubscriptButton() {
         return OptionsButton.createButton(
-                "Subscript",
-                e -> FormatTextEditor.formatSelectedText(
+                "_",
+                FormatTextEditor.createNewFormatAction(
                         attributeSet -> StyleConstants.isSubscript(attributeSet),
                         (mutableAttributeSet, formatPredicate) -> StyleConstants.setSubscript(mutableAttributeSet, formatPredicate)
                 ));
     }
+
+
 
     private static class OptionsButton {
         static JButton createButton(String label, ActionListener actionListener) {

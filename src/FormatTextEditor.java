@@ -1,6 +1,7 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.*;
+import java.awt.event.ActionEvent;
 
 /**
  * Created by sir.viters on 27.11.2016.
@@ -14,22 +15,21 @@ public class FormatTextEditor {
         }};
     }
 
-    static void formatText(final int selectStart, final int selectLength, final FormatPredicate formatPredicate, final FormatTransformation formatTransformation) {
-        final StyledDocument doc = Editor.textEditor.getStyledDocument();
-        final StyledEditorKit kit = (StyledEditorKit) Editor.textEditor.getEditorKit();
-        final AttributeSet attributeSet = kit.getInputAttributes();
-        final boolean shouldBeFormatted = !formatPredicate.check(attributeSet);
-        SwingUtilities.invokeLater(() -> {
-            MutableAttributeSet simpleAttributeSet = new SimpleAttributeSet();
-            formatTransformation.transform(simpleAttributeSet, shouldBeFormatted);
-            doc.setCharacterAttributes(selectStart, selectLength, simpleAttributeSet, true);
-        });
-    }
-
-    static void formatSelectedText(final FormatPredicate formatPredicate, final FormatTransformation formatTransformation) {
-        final int selectStart = Editor.textEditor.getSelectionStart();
-        final int selectLength = Editor.textEditor.getSelectedText().length();
-        formatText(selectStart, selectLength, formatPredicate, formatTransformation);
+    static StyledEditorKit.StyledTextAction createNewFormatAction(final FormatPredicate formatPredicate, final FormatTransformation formatTransformation) {
+        return new StyledEditorKit.StyledTextAction("strike-through") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                final JEditorPane editor = getEditor(e);
+                if (editor != null) {
+                    final StyledEditorKit kit = getStyledEditorKit(editor);
+                    MutableAttributeSet attr = kit.getInputAttributes();
+                    final boolean shouldFormat = (formatPredicate.check(attr)) ? false : true;
+                    SimpleAttributeSet sas = new SimpleAttributeSet();
+                    formatTransformation.transform(sas, shouldFormat);
+                    setCharacterAttributes(editor, sas, false);
+                }
+            }
+        };
     }
 
     interface FormatPredicate {
