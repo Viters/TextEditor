@@ -32,6 +32,7 @@ class OptionsToolBar {
         jToolBar.add(createFontEnlargeButton());
         jToolBar.add(createFontLessenButton());
         jToolBar.add(createFontSetSizeDropdown());
+        jToolBar.add(createFontColorDropdown());
         jToolBar.addSeparator();
     }
 
@@ -98,14 +99,16 @@ class OptionsToolBar {
     }
 
     private static JComboBox<Integer> createFontSetSizeDropdown() {
-        Integer[] fontSizes = { 8, 10, 12, 14, 16, 20, 24, 28, 32, 48, 64 };
+        Integer[] fontSizes = {8, 10, 12, 14, 16, 20, 24, 28, 32, 48, 64};
         return new JComboBox<Integer>(fontSizes) {{
             setMaximumSize(new Dimension(60, 30));
             setFocusable(false);
+            setBorder(new EmptyBorder(5, 10, 5, 10));
+            setSelectedIndex(3);
             addActionListener(new StyledEditorKit.StyledTextAction("font-size-absolute") {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    JComboBox cb = (JComboBox)e.getSource();
+                    JComboBox cb = (JComboBox) e.getSource();
                     Integer fontSize = (Integer) cb.getSelectedItem();
                     final JEditorPane editor = getEditor(e);
                     if (editor != null) {
@@ -117,6 +120,31 @@ class OptionsToolBar {
             });
         }};
     }
+
+    private static JComboBox<String> createFontColorDropdown() {
+        String[] colors = {"Midnight Blue", "Asbestos", "Wisteria", "Belizehole",
+                "Pomegranate", "Pumpkin", "Nephritis", "Greensea"};
+        return new JComboBox<String>(colors) {{
+            setMaximumSize(new Dimension(100, 30));
+            setFocusable(false);
+            setBorder(new EmptyBorder(5, 10, 5, 10));
+            addActionListener(new StyledEditorKit.StyledTextAction("font-color") {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    JComboBox cb = (JComboBox) e.getSource();
+                    String fontColor = (String) cb.getSelectedItem();
+                    final JEditorPane editor = getEditor(e);
+                    if (editor != null) {
+                        SimpleAttributeSet sas = new SimpleAttributeSet();
+                        Color color = FormatTextEditor.mapColorStringToColorObject(fontColor);
+                        StyleConstants.setForeground(sas, color);
+                        setCharacterAttributes(editor, sas, false);
+                    }
+                }
+            });
+        }};
+    }
+
 
     private static class OptionsButton {
         static JButton createButton(String label, ActionListener actionListener) {
