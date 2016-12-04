@@ -1,11 +1,11 @@
 import javafx.scene.text.TextAlignment;
 import jiconfont.icons.FontAwesome;
+import rtf.AdvancedRTFEditorKit;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledEditorKit;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -49,21 +49,21 @@ class OptionsToolBar {
     private static JButton createBoldButton() {
         return OptionsButton.createButton(
                 FontAwesome.BOLD,
-                new StyledEditorKit.BoldAction()
+                new AdvancedRTFEditorKit.BoldAction()
         );
     }
 
     private static JButton createItalicButton() {
         return OptionsButton.createButton(
                 FontAwesome.ITALIC,
-                new StyledEditorKit.ItalicAction()
+                new AdvancedRTFEditorKit.ItalicAction()
         );
     }
 
     private static JButton createUnderlineButton() {
         return OptionsButton.createButton(
                 FontAwesome.UNDERLINE,
-                new StyledEditorKit.UnderlineAction()
+                new AdvancedRTFEditorKit.UnderlineAction()
         );
     }
 
@@ -114,7 +114,7 @@ class OptionsToolBar {
             setMaximumSize(new Dimension(60, 30));
             setFocusable(false);
             setSelectedIndex(3);
-            addActionListener(new StyledEditorKit.StyledTextAction("font-size-absolute") {
+            addActionListener(new AdvancedRTFEditorKit.StyledTextAction("font-size-absolute") {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     JComboBox cb = (JComboBox) e.getSource();
@@ -133,28 +133,28 @@ class OptionsToolBar {
     private static JButton createAlignLeftButton() {
         return OptionsButton.createButton(
                 FontAwesome.ALIGN_LEFT,
-                new StyledEditorKit.AlignmentAction("", TextAlignment.LEFT.ordinal())
+                new AdvancedRTFEditorKit.AlignmentAction("", TextAlignment.LEFT.ordinal())
         );
     }
 
     private static JButton createAlignCenterButton() {
         return OptionsButton.createButton(
                 FontAwesome.ALIGN_CENTER,
-                new StyledEditorKit.AlignmentAction("", TextAlignment.CENTER.ordinal())
+                new AdvancedRTFEditorKit.AlignmentAction("", TextAlignment.CENTER.ordinal())
         );
     }
 
     private static JButton createAlignRightButton() {
         return OptionsButton.createButton(
                 FontAwesome.ALIGN_RIGHT,
-                new StyledEditorKit.AlignmentAction("", TextAlignment.RIGHT.ordinal())
+                new AdvancedRTFEditorKit.AlignmentAction("", TextAlignment.RIGHT.ordinal())
         );
     }
 
     private static JButton createAlignJustifyButton() {
         return OptionsButton.createButton(
                 FontAwesome.ALIGN_JUSTIFY,
-                new StyledEditorKit.AlignmentAction("", TextAlignment.JUSTIFY.ordinal())
+                new AdvancedRTFEditorKit.AlignmentAction("", TextAlignment.JUSTIFY.ordinal())
         );
     }
 
@@ -164,7 +164,7 @@ class OptionsToolBar {
         return new JComboBox<String>(colors) {{
             setMaximumSize(new Dimension(100, 30));
             setFocusable(false);
-            addActionListener(new StyledEditorKit.StyledTextAction("font-color") {
+            addActionListener(new AdvancedRTFEditorKit.StyledTextAction("font-color") {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     JComboBox cb = (JComboBox) e.getSource();
@@ -187,7 +187,7 @@ class OptionsToolBar {
             setMaximumSize(new Dimension(160, 30));
             setFocusable(false);
             setSelectedItem(Editor.textEditor.getFont().getFamily());
-            addActionListener(new StyledEditorKit.StyledTextAction("font-family") {
+            addActionListener(new AdvancedRTFEditorKit.StyledTextAction("font-family") {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     JComboBox cb = (JComboBox) e.getSource();

@@ -3,6 +3,7 @@ import jiconfont.swing.IconFontSwing;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.undo.UndoManager;
 import java.awt.*;
 
 /**
@@ -11,7 +12,8 @@ import java.awt.*;
 class Editor extends JFrame {
     private JPanel menusPanel;
     private JPanel textEditorPanel;
-    final static JTextPane textEditor = FormatTextEditor.createFormatTextEditor();
+    final static UndoManager undoManager = new UndoManager();
+    final static JTextPane textEditor = FormatTextEditor.createFormatTextEditor(undoManager);
 
     Editor() {
         try {

@@ -1,6 +1,8 @@
 import jiconfont.icons.FontAwesome;
+import rtf.AdvancedRTFDocument;
 
 import javax.swing.*;
+import java.io.*;
 
 /**
  * Created by sir.viters on 27.11.2016.
@@ -47,7 +49,15 @@ class DropdownMenu {
         return new JMenuItem("New") {{
             setIcon(Editor.buildStandardFont(FontAwesome.FILE_O));
             addActionListener(e -> {
-                System.out.println(Editor.textEditor.getText());
+                int shouldSave = JOptionPane.showConfirmDialog(Editor.textEditor, "Do you want to save current document?");
+                switch (shouldSave) {
+                    case 2:
+                        return;
+                    case 0:
+                        saveFileAction();
+                    case 1:
+                        SwingUtilities.invokeLater(() -> Editor.textEditor.setText(""));
+                }
             });
         }};
     }
@@ -56,7 +66,15 @@ class DropdownMenu {
         return new JMenuItem("Open") {{
             setIcon(Editor.buildStandardFont(FontAwesome.FOLDER_OPEN));
             addActionListener(e -> {
-                System.out.println("Open!");
+                int shouldSave = JOptionPane.showConfirmDialog(Editor.textEditor, "Do you want to save before opening?");
+                switch (shouldSave) {
+                    case 2:
+                        return;
+                    case 0:
+                        saveFileAction();
+                    case 1:
+                        openFileAction();
+                }
             });
         }};
     }
@@ -65,7 +83,7 @@ class DropdownMenu {
         return new JMenuItem("Save") {{
             setIcon(Editor.buildStandardFont(FontAwesome.FLOPPY_O));
             addActionListener(e -> {
-                System.out.println("Save!");
+                saveFileAction();
             });
         }};
     }
@@ -74,7 +92,7 @@ class DropdownMenu {
         return new JMenuItem("Save As...") {{
             setIcon(Editor.buildStandardFont(FontAwesome.FLOPPY_O));
             addActionListener(e -> {
-                System.out.println("SaveAs!");
+                saveFileAction();
             });
         }};
     }
@@ -83,7 +101,15 @@ class DropdownMenu {
         return new JMenuItem("Exit") {{
             setIcon(Editor.buildStandardFont(FontAwesome.TIMES));
             addActionListener(e -> {
-                System.out.println("Exit!");
+                int shouldSave = JOptionPane.showConfirmDialog(Editor.textEditor, "Do you want to save before exiting?");
+                switch (shouldSave) {
+                    case 2:
+                        return;
+                    case 0:
+                        saveFileAction();
+                    case 1:
+                        System.exit(0);
+                }
             });
         }};
     }
@@ -92,7 +118,8 @@ class DropdownMenu {
         return new JMenuItem("Undo") {{
             setIcon(Editor.buildStandardFont(FontAwesome.UNDO));
             addActionListener(e -> {
-                System.out.println("Undo!");
+                if (Editor.undoManager.canUndo())
+                    Editor.undoManager.undo();
             });
         }};
     }
@@ -101,7 +128,8 @@ class DropdownMenu {
         return new JMenuItem("Redo") {{
             setIcon(Editor.buildStandardFont(FontAwesome.REPEAT));
             addActionListener(e -> {
-                System.out.println("Redo!");
+                if (Editor.undoManager.canRedo())
+                    Editor.undoManager.redo();
             });
         }};
     }
@@ -110,7 +138,7 @@ class DropdownMenu {
         return new JMenuItem("Copy") {{
             setIcon(Editor.buildStandardFont(FontAwesome.FILES_O));
             addActionListener(e -> {
-                System.out.println("Copy!");
+                // TODO: 04.12.2016  kopiowanie
             });
         }};
     }
@@ -119,7 +147,7 @@ class DropdownMenu {
         return new JMenuItem("Cut") {{
             setIcon(Editor.buildStandardFont(FontAwesome.SCISSORS));
             addActionListener(e -> {
-                System.out.println("Cut!");
+                // TODO: 04.12.2016  wycinanie
             });
         }};
     }
@@ -128,7 +156,7 @@ class DropdownMenu {
         return new JMenuItem("Paste") {{
             setIcon(Editor.buildStandardFont(FontAwesome.CLIPBOARD));
             addActionListener(e -> {
-                System.out.println("Paste!");
+                // TODO: 04.12.2016  wklejanie
             });
         }};
     }
@@ -137,7 +165,12 @@ class DropdownMenu {
         return new JMenuItem("About") {{
             setIcon(Editor.buildStandardFont(FontAwesome.FILE_TEXT_O));
             addActionListener(e -> {
-                System.out.println("About!");
+                JOptionPane.showMessageDialog(Editor.textEditor,
+                        "Writer 2016.1\n\n" +
+                                "Simple RTF editor written for Java class\n\n" +
+                                "GitHub:\n" +
+                                "https://github.com/Viters/TextEditor",
+                        "About Writer", JOptionPane.INFORMATION_MESSAGE);
             });
         }};
     }
@@ -146,8 +179,39 @@ class DropdownMenu {
         return new JMenuItem("Licensing") {{
             setIcon(Editor.buildStandardFont(FontAwesome.COPYRIGHT));
             addActionListener(e -> {
-                System.out.println("Licensing!");
+                JOptionPane.showMessageDialog(Editor.textEditor,
+                        "The MIT License (MIT)\n" +
+                                "Copyright (c) 2016 Łukasz Szcześniak",
+                        "Copyright", JOptionPane.INFORMATION_MESSAGE);
             });
         }};
+    }
+
+    private static void saveFileAction() {
+        JFileChooser fileChooser = new JFileChooser();
+        if (fileChooser.showSaveDialog(Editor.textEditor) != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
+        File file = fileChooser.getSelectedFile();
+        try(FileWriter fileWriter = new FileWriter(file)) {
+            Editor.textEditor.write(fileWriter);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void openFileAction() {
+        JFileChooser fileChooser = new JFileChooser();
+        if (fileChooser.showOpenDialog(Editor.textEditor) != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
+        File file = fileChooser.getSelectedFile();
+        final AdvancedRTFDocument doc = (AdvancedRTFDocument) Editor.textEditor.getDocument();
+        try(InputStream inputStream = new FileInputStream(file)) {
+            Editor.textEditor.setText("");
+            Editor.textEditor.read(inputStream, doc);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

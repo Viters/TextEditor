@@ -1,6 +1,13 @@
+import rtf.AdvancedRTFDocument;
+import rtf.AdvancedRTFEditorKit;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.*;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.MutableAttributeSet;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.undo.UndoManager;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
@@ -9,23 +16,24 @@ import java.awt.event.ActionEvent;
  */
 public class FormatTextEditor {
 
-    static JTextPane createFormatTextEditor() {
+    static JTextPane createFormatTextEditor(UndoManager manager) {
         return new JTextPane() {{
+            setDocument(new AdvancedRTFDocument());
             setBorder(new EmptyBorder(10, 10, 10, 10));
             setFont(new Font("", 0, 14));
             setForeground(mapColorStringToColorObject("Midnight Blue"));
-            setBackground(mapColorStringToColorObject("Clouds"));
-            setEditorKit(new StyledEditorKit());
+            setEditorKit(new AdvancedRTFEditorKit());
+            getDocument().addUndoableEditListener(manager);
         }};
     }
 
-    static StyledEditorKit.StyledTextAction createNewFormatAction(final FormatPredicate formatPredicate, final FormatTransformation formatTransformation) {
-        return new StyledEditorKit.StyledTextAction("format") {
+    static AdvancedRTFEditorKit.StyledTextAction createNewFormatAction(final FormatPredicate formatPredicate, final FormatTransformation formatTransformation) {
+        return new AdvancedRTFEditorKit.StyledTextAction("format") {
             @Override
             public void actionPerformed(ActionEvent e) {
                 final JEditorPane editor = getEditor(e);
                 if (editor != null) {
-                    final StyledEditorKit kit = getStyledEditorKit(editor);
+                    final AdvancedRTFEditorKit kit = (AdvancedRTFEditorKit) editor.getEditorKit();
                     MutableAttributeSet attr = kit.getInputAttributes();
                     final boolean shouldFormat = (formatPredicate.check(attr)) ? false : true;
                     SimpleAttributeSet sas = new SimpleAttributeSet();
@@ -36,13 +44,13 @@ public class FormatTextEditor {
         };
     }
 
-    static StyledEditorKit.StyledTextAction createFontSizeAction(final int difference) {
-        return new StyledEditorKit.StyledTextAction("font-size-relative") {
+    static AdvancedRTFEditorKit.StyledTextAction createFontSizeAction(final int difference) {
+        return new AdvancedRTFEditorKit.StyledTextAction("font-size-relative") {
             @Override
             public void actionPerformed(ActionEvent e) {
                 final JEditorPane editor = getEditor(e);
                 if (editor != null) {
-                    final StyledEditorKit kit = getStyledEditorKit(editor);
+                    final AdvancedRTFEditorKit kit = (AdvancedRTFEditorKit) editor.getEditorKit();
                     AttributeSet attr = kit.getInputAttributes();
                     final int currentFontSize = StyleConstants.getFontSize(attr);
                     SimpleAttributeSet sas = new SimpleAttributeSet();
