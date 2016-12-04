@@ -49,8 +49,7 @@ class DropdownMenu {
         return new JMenuItem("New") {{
             setIcon(Editor.buildStandardFont(FontAwesome.FILE_O));
             addActionListener(e -> {
-                int shouldSave = JOptionPane.showConfirmDialog(Editor.textEditor, "Do you want to save current document?");
-                switch (shouldSave) {
+                switch (shouldSavePrompt()) {
                     case 2:
                         return;
                     case 0:
@@ -66,8 +65,7 @@ class DropdownMenu {
         return new JMenuItem("Open") {{
             setIcon(Editor.buildStandardFont(FontAwesome.FOLDER_OPEN));
             addActionListener(e -> {
-                int shouldSave = JOptionPane.showConfirmDialog(Editor.textEditor, "Do you want to save before opening?");
-                switch (shouldSave) {
+                switch (shouldSavePrompt()) {
                     case 2:
                         return;
                     case 0:
@@ -101,8 +99,7 @@ class DropdownMenu {
         return new JMenuItem("Exit") {{
             setIcon(Editor.buildStandardFont(FontAwesome.TIMES));
             addActionListener(e -> {
-                int shouldSave = JOptionPane.showConfirmDialog(Editor.textEditor, "Do you want to save before exiting?");
-                switch (shouldSave) {
+                switch (shouldSavePrompt()) {
                     case 2:
                         return;
                     case 0:
@@ -213,5 +210,12 @@ class DropdownMenu {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private static int shouldSavePrompt() {
+        if (Editor.textEditor.getDocument().getLength() == 0)
+            return 1;
+        else
+            return JOptionPane.showConfirmDialog(Editor.textEditor, "Do you want to save current document?");
     }
 }
